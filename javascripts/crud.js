@@ -17,5 +17,13 @@ var FbAPI = ((oldFbAPI) => {
 		});
 	};
 
+	oldFbAPI.addTodo = (newTodo) => {
+		return new Promise ((resolve, reject) => {
+			newTodo.id = `item${FbAPI.todoGetter().length}`;
+			FbAPI.setSingleTodo(newTodo);
+			resolve();
+		});
+	};
+
 	return oldFbAPI;
 })(FbAPI || {});
