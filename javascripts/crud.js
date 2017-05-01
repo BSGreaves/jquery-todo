@@ -26,10 +26,18 @@ var FbAPI = ((oldFbAPI) => {
 	};
 
 	oldFbAPI.checker = id => {
-	return new Promise((resolve, reject) => {
-		FbAPI.setChecked(id);
-		resolve();
-	});};
+		return new Promise((resolve, reject) => {
+			FbAPI.setChecked(id);
+			resolve();
+		});
+	};
+
+	oldFbAPI.deleteTodo = id => {
+		return new Promise ((resolve, reject) => {
+			FbAPI.duhlete(id);
+			resolve();
+		});
+	};
 
 	return oldFbAPI;
 })(FbAPI || {});

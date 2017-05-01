@@ -29,9 +29,17 @@ $(function() {
     		console.log("Addtodo error", error);
     	});
     });
-    //delete todo
+    
+    $(".main-container").on("click", ".delete", (e) => {
+        FbAPI.deleteTodo(e.target.id).then(() => {
+            FbAPI.writeDOM();
+            countTask();
+        }).catch(error => {console.log("error in deleteTodo", error);});
+    });
+
     //edit todo
-    //complete todos
+
+
     $(".main-container").on("click", "input[type='checkbox']", (e) => {
     	FbAPI.checker(e.target.id).then(() => {
     		FbAPI.writeDOM();
@@ -46,6 +54,5 @@ $(function() {
     	let remainingTasks = $("#incomplete-tasks li").length;
     	$("#counter").hide().fadeIn(300).html(remainingTasks);
     };
-
 
 });
