@@ -19,9 +19,17 @@ var FbApi = ((oldFbApi) => {
 
 	oldFbApi.addTodo = (apiKeys, newTodo) => {
 		return new Promise ((resolve, reject) => {
-			newTodo.id = `item${FbApi.todoGetter().length}`;
-			FbApi.setSingleTodo(newTodo);
-			resolve();
+			$.ajax({
+				method: "POST",
+				url: `${apiKeys.databaseURL}/items.json`,
+				data: JSON.stringify(newTodo)
+			})
+			.done(() => {
+				resolve();
+			})
+			.fail((error) => {
+				reject(error);
+			});
 		});
 	};
 
@@ -49,7 +57,6 @@ var FbApi = ((oldFbApi) => {
 
 	oldFbApi.editTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
-			FbApi.duhlete(id);
 			resolve();
 		});
 	};
