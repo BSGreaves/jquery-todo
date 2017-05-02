@@ -1,5 +1,7 @@
 $(function() {
 
+    let apiKeys = {};
+
     $("#new-item").click(() => {
         $(".list-container").addClass("hide");
         $(".new-container").removeClass("hide");
@@ -10,9 +12,18 @@ $(function() {
         $(".list-container").removeClass("hide");
     });
 
-    FbAPI.getTodos()
+    FbApi.firebaseCredentials().then((keys) => {
+        apiKeys = keys;
+        firebase.initializeApp(apiKeys);
+        FbApi.writeDom(apiKeys);
+        countTask();
+    }).catch((error) => {
+        console.log("key errors", error);
+    });
+
+    FbApi.getTodos(apiKeys)
         .then(() => {
-            FbAPI.writeDOM();
+            FbApi.writeDom();
             countTask();
         })
         .catch(error => console.log("getTodos error", error));
@@ -22,10 +33,10 @@ $(function() {
             isCompleted: false,
             task: $("#add-todo-text").val()
         };
-        FbAPI.addTodo(newTodo).then(() => {
+        FbApi.addTodo(newTodo).then(() => {
             $(".new-container").addClass("hide");
             $(".list-container").removeClass("hide");
-            FbAPI.writeDOM();
+            FbApi.writeDom();
             countTask();
             $("#add-todo-text").val("");
         }).catch((error) => {
@@ -34,8 +45,8 @@ $(function() {
     });
 
     $(".main-container").on("click", ".delete", (e) => {
-        FbAPI.deleteTodo(e.target.id).then(() => {
-            FbAPI.writeDOM();
+        FbApi.deleteTodo(e.target.id).then(() => {
+            FbApi.writeDom();
             countTask();
         }).catch(error => {
             console.log("error in deleteTodo", error);
@@ -46,7 +57,7 @@ $(function() {
 
     $(".main-container").on("click", ".edit", (e) => {
         let editText = $(event.target).closest(".col-xs-4").siblings('.col-xs-8').find(".task").html();
-        FbAPI.editTodo(event.target.id)
+        FbApi.editTodo(event.target.id)
             .then(() => {
                 $(".list-container").addClass("hide");
                 $(".new-container").removeClass("hide");
@@ -58,9 +69,9 @@ $(function() {
     });
 
     $(".main-container").on("click", "input[type='checkbox']", (e) => {
-        FbAPI.checker(e.target.id)
+        FbApi.checker(e.target.id)
             .then(() => {
-                FbAPI.writeDOM();
+                FbApi.writeDom();
                 countTask();
             }).catch((error) => {
                 console.log("checked error", error);

@@ -1,50 +1,49 @@
-var FbAPI = ((oldFbAPI) => {
+var FbApi = ((oldFbApi) => {
 
-	oldFbAPI.getTodos = () => {
+	oldFbApi.getTodos = (apiKeys) => {
 		let items = [];
 		return new Promise((resolve, reject) => {
-			$.ajax("./database/seed.json")
+			$.ajax(`${apiKeys.databaseURL}/items.json`)
 			.done(data => {
-				let response = data.items;
+				let response = data;
 				Object.keys(response).forEach((key) => {
 					response[key].id = key;
 					items.push(response[key]);
 				});
-				FbAPI.setTodos(items);
-				resolve();
+				resolve(items);
 			})
 			.fail(error => {reject(error);});
 		});
 	};
 
-	oldFbAPI.addTodo = newTodo => {
+	oldFbApi.addTodo = newTodo => {
 		return new Promise ((resolve, reject) => {
-			newTodo.id = `item${FbAPI.todoGetter().length}`;
-			FbAPI.setSingleTodo(newTodo);
+			newTodo.id = `item${FbApi.todoGetter().length}`;
+			FbApi.setSingleTodo(newTodo);
 			resolve();
 		});
 	};
 
-	oldFbAPI.checker = id => {
+	oldFbApi.checker = id => {
 		return new Promise((resolve, reject) => {
-			FbAPI.setChecked(id);
+			FbApi.setChecked(id);
 			resolve();
 		});
 	};
 
-	oldFbAPI.deleteTodo = id => {
+	oldFbApi.deleteTodo = id => {
 		return new Promise ((resolve, reject) => {
-			FbAPI.duhlete(id);
+			FbApi.duhlete(id);
 			resolve();
 		});
 	};
 
-	oldFbAPI.editTodo = id => {
+	oldFbApi.editTodo = id => {
 		return new Promise ((resolve, reject) => {
-			FbAPI.duhlete(id);
+			FbApi.duhlete(id);
 			resolve();
 		});
 	};
 
-	return oldFbAPI;
-})(FbAPI || {});
+	return oldFbApi;
+})(FbApi || {});
