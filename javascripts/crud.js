@@ -3,6 +3,7 @@ var FbApi = ((oldFbApi) => {
 	oldFbApi.getTodos = (apiKeys) => {
 		let items = [];
 		return new Promise((resolve, reject) => {
+			console.log(`${apiKeys.databaseURL}/items.json`);
 			$.ajax(`${apiKeys.databaseURL}/items.json`)
 			.done(data => {
 				let response = data;
@@ -16,7 +17,7 @@ var FbApi = ((oldFbApi) => {
 		});
 	};
 
-	oldFbApi.addTodo = newTodo => {
+	oldFbApi.addTodo = (apiKeys, newTodo) => {
 		return new Promise ((resolve, reject) => {
 			newTodo.id = `item${FbApi.todoGetter().length}`;
 			FbApi.setSingleTodo(newTodo);
@@ -24,21 +25,29 @@ var FbApi = ((oldFbApi) => {
 		});
 	};
 
-	oldFbApi.checker = id => {
+	oldFbApi.checker = (apiKeys, id) => {
 		return new Promise((resolve, reject) => {
 			FbApi.setChecked(id);
 			resolve();
 		});
 	};
 
-	oldFbApi.deleteTodo = id => {
+	oldFbApi.deleteTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
-			FbApi.duhlete(id);
-			resolve();
+			$.ajax({
+				method: "DELETE",
+				url: `${apiKeys.databaseURL}/items/${id}.json`
+			})
+			.done(() => {
+				resolve();
+			})
+			.fail((error) => {
+				reject(error);
+			});
 		});
 	};
 
-	oldFbApi.editTodo = id => {
+	oldFbApi.editTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
 			FbApi.duhlete(id);
 			resolve();

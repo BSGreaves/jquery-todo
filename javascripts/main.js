@@ -21,12 +21,12 @@ $(function() {
         console.log("key errors", error);
     });
 
-    FbApi.getTodos(apiKeys)
-        .then(() => {
-            FbApi.writeDom();
-            countTask();
-        })
-        .catch(error => console.log("getTodos error", error));
+    // FbApi.getTodos(apiKeys)
+    //     .then(() => {
+    //         FbApi.writeDom(apiKeys);
+    //         countTask();
+    //     })
+    //     .catch(error => console.log("getTodos error", error));
 
     $("#add-todo-button").click(() => {
         let newTodo = {
@@ -36,7 +36,7 @@ $(function() {
         FbApi.addTodo(newTodo).then(() => {
             $(".new-container").addClass("hide");
             $(".list-container").removeClass("hide");
-            FbApi.writeDom();
+            FbApi.writeDom(apiKeys);
             countTask();
             $("#add-todo-text").val("");
         }).catch((error) => {
@@ -45,8 +45,8 @@ $(function() {
     });
 
     $(".main-container").on("click", ".delete", (e) => {
-        FbApi.deleteTodo(e.target.id).then(() => {
-            FbApi.writeDom();
+        FbApi.deleteTodo(apiKeys, e.target.id).then(() => {
+            FbApi.writeDom(apiKeys);
             countTask();
         }).catch(error => {
             console.log("error in deleteTodo", error);
@@ -71,7 +71,7 @@ $(function() {
     $(".main-container").on("click", "input[type='checkbox']", (e) => {
         FbApi.checker(e.target.id)
             .then(() => {
-                FbApi.writeDom();
+                FbApi.writeDom(apiKeys);
                 countTask();
             }).catch((error) => {
                 console.log("checked error", error);
