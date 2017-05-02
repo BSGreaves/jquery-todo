@@ -1,50 +1,68 @@
-var FbAPI = ((oldFbAPI) => {
+var FbApi = ((oldFbApi) => {
 
-	oldFbAPI.getTodos = () => {
+	oldFbApi.getTodos = (apiKeys) => {
 		let items = [];
 		return new Promise((resolve, reject) => {
-			$.ajax("./database/seed.json")
+			console.log(`${apiKeys.databaseURL}/items.json`);
+			$.ajax(`${apiKeys.databaseURL}/items.json`)
 			.done(data => {
-				let response = data.items;
+				let response = data;
 				Object.keys(response).forEach((key) => {
 					response[key].id = key;
 					items.push(response[key]);
 				});
-				FbAPI.setTodos(items);
-				resolve();
+				resolve(items);
 			})
 			.fail(error => {reject(error);});
 		});
 	};
 
-	oldFbAPI.addTodo = newTodo => {
+	oldFbApi.addTodo = (apiKeys, newTodo) => {
 		return new Promise ((resolve, reject) => {
-			newTodo.id = `item${FbAPI.todoGetter().length}`;
-			FbAPI.setSingleTodo(newTodo);
-			resolve();
+			$.ajax({
+				method: "POST",
+				url: `${apiKeys.databaseURL}/items.json`,
+				data: JSON.stringify(newTodo)
+			})
+			.done(() => {
+				resolve();
+			})
+			.fail((error) => {
+				reject(error);
+			});
 		});
 	};
 
-	oldFbAPI.checker = id => {
-		return new Promise((resolve, reject) => {
-			FbAPI.setChecked(id);
-			resolve();
-		});
-	};
-
-	oldFbAPI.deleteTodo = id => {
+	oldFbApi.deleteTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
-			FbAPI.duhlete(id);
-			resolve();
+			$.ajax({
+				method: "DELETE",
+				url: `${apiKeys.databaseURL}/items/${id}.json`
+			})
+			.done(() => {
+				resolve();
+			})
+			.fail((error) => {
+				reject(error);
+			});
 		});
 	};
 
-	oldFbAPI.editTodo = id => {
+	oldFbApi.editTodo = (apiKeys, todo, id) => {
 		return new Promise ((resolve, reject) => {
-			FbAPI.duhlete(id);
-			resolve();
+			$.ajax({
+				method: "PUT",
+				url: `${apiKeys.databaseURL}/items/${id}.json`,
+				data: JSON.stringify(todo)
+			})
+			.done(() => {
+				resolve();
+			})
+			.fail((error) => {
+				reject(error);
+			});
 		});
 	};
 
-	return oldFbAPI;
-})(FbAPI || {});
+	return oldFbApi;
+})(FbApi || {});
