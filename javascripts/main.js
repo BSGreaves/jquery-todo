@@ -76,7 +76,11 @@ $(function() {
     });
 
     $(".main-container").on("click", "input[type='checkbox']", (e) => {
-        FbApi.checker(e.target.id)
+        let myTodo = {
+            isCompleted: e.target.checked,
+            task: $(e.target).siblings(".task").html()
+        };
+        FbApi.editTodo(apiKeys, myTodo, e.target.id)
             .then(() => {
                 FbApi.writeDom(apiKeys);
             }).catch((error) => {

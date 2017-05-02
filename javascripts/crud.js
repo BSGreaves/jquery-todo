@@ -33,13 +33,6 @@ var FbApi = ((oldFbApi) => {
 		});
 	};
 
-	oldFbApi.checker = (apiKeys, id) => {
-		return new Promise((resolve, reject) => {
-			FbApi.setChecked(id);
-			resolve();
-		});
-	};
-
 	oldFbApi.deleteTodo = (apiKeys, id) => {
 		return new Promise ((resolve, reject) => {
 			$.ajax({
