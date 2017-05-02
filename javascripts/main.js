@@ -1,6 +1,7 @@
 $(function() {
 
     let apiKeys = {};
+    let editID = "";
 
     $("#new-item").click(() => {
         $(".list-container").addClass("hide");
@@ -32,15 +33,28 @@ $(function() {
             isCompleted: false,
             task: $("#add-todo-text").val()
         };
-        FbApi.addTodo(apiKeys, newTodo).then(() => {
-            $(".new-container").addClass("hide");
-            $(".list-container").removeClass("hide");
-            FbApi.writeDom(apiKeys);
-            
-            $("#add-todo-text").val("");
-        }).catch((error) => {
-            console.log("Addtodo error", error);
-        });
+        if (editID.length > 0) {
+            FbApi.editTodo(apiKeys, newTodo, editID).then(() => {
+                $(".new-container").addClass("hide");
+                $(".list-container").removeClass("hide");
+                FbApi.writeDom(apiKeys);
+                $("#add-todo-text").val("");
+                editID = "";
+            }).catch((error) => {
+                console.log("Addtodo error", error);
+            });
+        } else {
+            FbApi.addTodo(apiKeys, newTodo).then(() => {
+                $(".new-container").addClass("hide");
+                $(".list-container").removeClass("hide");
+                FbApi.writeDom(apiKeys);
+
+                $("#add-todo-text").val("");
+            }).catch((error) => {
+                console.log("Addtodo error", error);
+            });
+        }
+
     });
 
     $(".main-container").on("click", ".delete", (e) => {
@@ -55,15 +69,10 @@ $(function() {
 
     $(".main-container").on("click", ".edit", (e) => {
         let editText = $(event.target).closest(".col-xs-4").siblings('.col-xs-8').find(".task").html();
-        FbApi.editTodo(event.target.id)
-            .then(() => {
-                $(".list-container").addClass("hide");
-                $(".new-container").removeClass("hide");
-                $("#add-todo-text").val(editText);
-            })
-            .catch(error => {
-                console.log("error in editTodo", error);
-            });
+        editID = e.target.id;
+        $(".list-container").addClass("hide");
+        $(".new-container").removeClass("hide");
+        $("#add-todo-text").val(editText);
     });
 
     $(".main-container").on("click", "input[type='checkbox']", (e) => {

@@ -55,9 +55,19 @@ var FbApi = ((oldFbApi) => {
 		});
 	};
 
-	oldFbApi.editTodo = (apiKeys, id) => {
+	oldFbApi.editTodo = (apiKeys, todo, id) => {
 		return new Promise ((resolve, reject) => {
-			resolve();
+			$.ajax({
+				method: "PUT",
+				url: `${apiKeys.databaseURL}/items/${id}.json`,
+				data: JSON.stringify(todo)
+			})
+			.done(() => {
+				resolve();
+			})
+			.fail((error) => {
+				reject(error);
+			});
 		});
 	};
 
