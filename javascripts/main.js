@@ -9,7 +9,13 @@ $(function() {
         let username = $("#inputUsername").val();
         let user = {email, password};
         FbApi.registerUser(user).then((response) => {
-            console.log(response);
+            let newUser = {
+                uid: response.uid,
+                username: username
+            };
+            FbApi.addUser(apiKeys, newUser).then((response) => {
+                console.log("addUser", response);
+            }).catch((error) => {console.log("add user error", error);});
         }).catch((error) => {console.log("register user error", error);});
     });
 
@@ -34,13 +40,6 @@ $(function() {
     }).catch((error) => {
         console.log("key errors", error);
     });
-
-    // FbApi.getTodos(apiKeys)
-    //     .then(() => {
-    //         FbApi.writeDom(apiKeys);
-    //         
-    //     })
-    //     .catch(error => console.log("getTodos error", error));
 
     $("#add-todo-button").click(() => {
         let newTodo = {
