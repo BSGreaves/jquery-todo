@@ -23,45 +23,55 @@
             <li><a id="new-item" href="#">New</a></li>
             <li><a id="list-items" href="#">List</a></li>
           </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container col-xs-4 col-xs-offset-4" id="login-container">
+      <h3 class="text-center form-spacing">Todo App</h3>
+      <input type="email" id="inputEmail" class="form-control form-spacing" placeholder="Email Address" required autofocus>
+      <input type="password" id="inputPassword" class="form-control form-spacing" placeholder="Password" required >
+      <input type="text" id="inputUsername" class="form-control form-spacing" placeholder="Username" required>
+      <button class="btn btn-lg btn-success col-xs-6" id="loginButton">Login</button>
+      <button class="btn btn-lg btn-primary col-xs-6" id="registerButton">Register</button>
+    </div>
+    <div class="col-xs-8 col-xs-offset-2 hide main-container">
+      <div class="col-xs-12 new-container hide">
+        <div class="row form-spacing">
+          <div class="col-xs-12 text-center">
+            <h3>New Todo</h3>
+            <input type="text" class="form-control form-spacing" id="add-todo-text" placeholder="New Todo Item">
           </div>
-          </div>
-        </nav>
-        <div class="col-xs-8 col-xs-offset-2 main-container">
-          <div class="col-xs-12 new-container hide">
-            <div class="row form-spacing">
-              <div class="col-xs-12 text-center">
-                <h3>New Todo</h3>
-                <input type="text" class="form-control form-spacing" id="add-todo-text" placeholder="New Todo Item">
-              </div>
-            </div>
-            <div class="row form-spacing">
-              <div class="col-xs-12 text-center">
-                <button type="button" class="btn btn-primary btn-lg" id="add-todo-button">Add New Todo</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-12 list-container">
-            <div class="row">
-              <div class="col-sm-12">
-                <h3>Todo<span id="counter"></span></h3>
-              <ul id="incomplete-tasks"></ul>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <h3>Completed</h3>
-            <ul id="completed-tasks"></ul>
+        </div>
+        <div class="row form-spacing">
+          <div class="col-xs-12 text-center">
+            <button type="button" class="btn btn-primary btn-lg" id="add-todo-button">Add New Todo</button>
           </div>
         </div>
       </div>
+      <div class="col-xs-12 list-container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Todo<span id="counter"></span></h3>
+          <ul id="incomplete-tasks"></ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Completed</h3>
+        <ul id="completed-tasks"></ul>
+      </div>
     </div>
-    
-    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
-    <script type="text/javascript" src="./lib/bower_components/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="./lib/bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script type="text/javascript" src="./javascripts/firebase.js"></script>
-    <script type="text/javascript" src="./javascripts/crud.js"></script>
-    <script type="text/javascript" src="./javascripts/dom.js"></script>
-    <script type="text/javascript" src="./javascripts/main.js"></script>
-  </body>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+<script type="text/javascript" src="./lib/bower_components/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="./lib/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="./javascripts/firebase.js"></script>
+<script type="text/javascript" src="./javascripts/auth.js"></script>
+<script type="text/javascript" src="./javascripts/usercrud.js"></script>
+<script type="text/javascript" src="./javascripts/crud.js"></script>
+<script type="text/javascript" src="./javascripts/dom.js"></script>
+<script type="text/javascript" src="./javascripts/main.js"></script>
+</body>
 </html>

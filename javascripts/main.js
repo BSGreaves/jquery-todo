@@ -3,6 +3,20 @@ $(function() {
     let apiKeys = {};
     let editID = "";
 
+    $("#registerButton").click(() => {
+        let email = $("#inputEmail").val();
+        let password = $("#inputPassword").val();
+        let username = $("#inputUsername").val();
+        let user = {email, password};
+        FbApi.registerUser(user).then((response) => {
+            console.log(response);
+        }).catch((error) => {console.log("register user error", error);});
+    });
+
+    $("#loginButton").click(() => {
+
+    });
+
     $("#new-item").click(() => {
         $(".list-container").addClass("hide");
         $(".new-container").removeClass("hide");

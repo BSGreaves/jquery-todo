@@ -3,7 +3,6 @@ var FbApi = ((oldFbApi) => {
 	oldFbApi.getTodos = (apiKeys) => {
 		let items = [];
 		return new Promise((resolve, reject) => {
-			console.log(`${apiKeys.databaseURL}/items.json`);
 			$.ajax(`${apiKeys.databaseURL}/items.json`)
 			.done(data => {
 				let response = data;
