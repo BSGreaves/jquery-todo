@@ -7,21 +7,54 @@ $(function() {
         let email = $("#inputEmail").val();
         let password = $("#inputPassword").val();
         let username = $("#inputUsername").val();
-        let user = {email, password};
+        let user = {
+            email,
+            password
+        };
         FbApi.registerUser(user).then((response) => {
             let newUser = {
                 uid: response.uid,
                 username: username
             };
             FbApi.addUser(apiKeys, newUser).then((response) => {
-                console.log("addUser", response);
-            }).catch((error) => {console.log("add user error", error);});
-        }).catch((error) => {console.log("register user error", error);});
+                FbApi.loginUser(user).then((response) => {
+                    clearLogin();
+                    $("#login-container").addClass("hide");
+                    $(".main-container").removeClass("hide");
+                    FbApi.writeDom(apiKeys);
+                }).catch((error) => {
+                    console.log("login error", error);
+                });
+            }).catch((error) => {
+                console.log("add user error", error);
+            });
+        }).catch((error) => {
+            console.log("register user error", error);
+        });
     });
 
     $("#loginButton").click(() => {
-
+        let email = $("#inputEmail").val();
+        let password = $("#inputPassword").val();
+        let user = {
+            email,
+            password
+        };
+        FbApi.loginUser(user).then((response) => {
+            clearLogin();
+            $("#login-container").addClass("hide");
+            $(".main-container").removeClass("hide");
+            FbApi.writeDom(apiKeys);
+        }).catch((error) => {
+            console.log("login error", error);
+        });
     });
+
+    const clearLogin = () => {
+        let email = $("#inputEmail").val("");
+        let password = $("#inputPassword").val("");
+        let username = $("#inputUsername").val("");
+    };
 
     $("#new-item").click(() => {
         $(".list-container").addClass("hide");
@@ -100,5 +133,7 @@ $(function() {
                 console.log("checked error", error);
             });
     });
+
+
 
 });
