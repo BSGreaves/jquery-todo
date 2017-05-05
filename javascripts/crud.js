@@ -1,9 +1,10 @@
 var FbApi = ((oldFbApi) => {
 
 	oldFbApi.getTodos = (apiKeys) => {
+		let uid = FbApi.credentialsCurrentUser().uid;
 		let items = [];
 		return new Promise((resolve, reject) => {
-			$.ajax(`${apiKeys.databaseURL}/items.json`)
+			$.ajax(`${apiKeys.databaseURL}/items.json?orderBy="uid"&equalTo="${uid}"`)
 			.done(data => {
 				let response = data;
 				Object.keys(response).forEach((key) => {
@@ -17,6 +18,7 @@ var FbApi = ((oldFbApi) => {
 	};
 
 	oldFbApi.addTodo = (apiKeys, newTodo) => {
+		newTodo.uid = FbApi.credentialsCurrentUser().uid;
 		return new Promise ((resolve, reject) => {
 			$.ajax({
 				method: "POST",
@@ -48,6 +50,7 @@ var FbApi = ((oldFbApi) => {
 	};
 
 	oldFbApi.editTodo = (apiKeys, todo, id) => {
+		todo.uid = FbApi.credentialsCurrentUser().uid;
 		return new Promise ((resolve, reject) => {
 			$.ajax({
 				method: "PUT",
