@@ -21,6 +21,7 @@ $(function() {
                     clearLogin();
                     $("#login-container").addClass("hide");
                     $(".main-container").removeClass("hide");
+                    FbApi.createLogoutButton(apiKeys);
                     FbApi.writeDom(apiKeys);
                 }).catch((error) => {
                     console.log("login error", error);
@@ -44,6 +45,7 @@ $(function() {
             clearLogin();
             $("#login-container").addClass("hide");
             $(".main-container").removeClass("hide");
+            FbApi.createLogoutButton(apiKeys);
             FbApi.writeDom(apiKeys);
         }).catch((error) => {
             console.log("login error", error);
@@ -134,6 +136,11 @@ $(function() {
             });
     });
 
-
+    $("#logout-container").on("click", "#logoutButton", () => {
+        clearLogin();
+        FbApi.logoutUser();
+        $("#login-container").removeClass("hide");
+        $(".main-container").addClass("hide");
+    });
 
 });
